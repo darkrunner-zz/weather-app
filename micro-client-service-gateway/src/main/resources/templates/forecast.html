@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{css/weather.css}" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="testimonial-group col-sm-12 text-center">
+            <p th:text="'Location: ' + ${name}" />
+            <span th:text="'Max temp for the week:' + ${#numbers.formatInteger(maxCel, 0,'COMMA')} + ' C'"/><br/>
+            <span th:text="'Min temp for the week:' + ${#numbers.formatInteger(minCel, 0,'COMMA')} + ' C'"/><br/>
+
+            <div class="weather-forecast-icons row" >
+                <th:block th:each="reading : ${readings}">
+                    <div class="weather-forecast-icons__item col-sm-4">
+                        <span th:text="${reading.key}"/><br/>
+                        <span th:text="'Max temp:' + ${#numbers.formatInteger(reading.value.maxTemperatureCelsius, 0,'COMMA')} + ' C'"/><br/>
+                        <span th:text="'Min temp:' + ${#numbers.formatInteger(reading.value.minTemperatureCelsius, 0,'COMMA')} + ' C'"/><br/>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

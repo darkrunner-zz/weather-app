@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Demo</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="all" href="css/weather.css" />
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+    <script src="https://rawgithub.com/arunisrael/angularjs-geolocation/master/dist/angularjs-geolocation.min.js"></script>
+    <script type="text/javascript">
+
+  angular.module("app", ['geolocation'])
+    .controller("home", function($http, $location, $window, geolocation) {
+    var self = this;
+
+    $http.get("/user").success(function(data) {
+
+      self.user = data.userAuthentication.details.name;
+      self.authenticated = true;
+
+       geolocation.getLocation().then(function(data){
+       $window.location.href = 'http://localhost:8080/forecast?long=' + data.coords.longitude + '&lat=' + data.coords.latitude;
+    });
+
+    }).error(function() {
+      self.user = "N/A";
+      self.authenticated = false;
+    });
+
+    self.logout = function() {
+      $http.post('/logout', {}).success(function() {
+        self.authenticated = false;
+        $location.path("/");
+      }).error(function(data) {
+        console.log("Logout failed")
+        self.authenticated = false;
+      });
+    };
+  });
+</script>
+</head>
+<body ng-app="app" ng-controller="home as home">
+
+<div class="jumbotron">
+    <h1>Demo</h1>
+</div>
+
+<div class="container col-md-5" ng-show="!home.authenticated">
+    <div class="row">
+        <div class="col-sm-3 text-center">
+            <span>Login to use service: </span>
+        </div>
+        <div class="col-sm-3">
+            <a class="btn btn-block btn-social btn-google-plus" href="/login">
+                <i class="fa fa-google"></i> Log in
+            </a>
+
+        </div>
+    </div>
+</div>
+<div class="container col-md-5" ng-show="home.authenticated">
+    Logged in as: <span ng-bind="home.user"></span>
+    <div>
+        <button ng-click="home.logout()" class="btn btn-primary">Logout</button>
+    </div>
+</div>
+</body>
+</html>

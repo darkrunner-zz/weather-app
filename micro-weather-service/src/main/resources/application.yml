@@ -1,0 +1,13 @@
+server:
+  port: 8360
+
+APPID: 25baaa481937c8db27037ce5e5044d21
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+security:
+  user:
+    password: test

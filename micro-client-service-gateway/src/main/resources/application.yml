@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+security:
+  oauth2:
+    client:
+      clientId: 562027591959-r0dbk47vg3r2buq5v6edlnu2ksa7ciff.apps.googleusercontent.com
+      clientSecret: yyLmGejJdqHk7hyPpsrKdpPT
+      accessTokenUri: https://www.googleapis.com/oauth2/v3/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
+      tokenName: oauth_token
+      authenticationScheme: query
+      clientAuthenticationScheme: form
+      scope:
+              - openid
+              - email
+              - profile
+    resource:
+      userInfoUri: https://www.googleapis.com/userinfo/v2/me
+      preferTokenInfo: true
+eureka:
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    eureka-service-url-poll-interval-seconds: 60
+
+zuul:
+  ribbon:
+    eager-load:
+      enabled: true
