@@ -1,3 +1,5 @@
+In order to build the project execute mvn install on the main pom file.
+
 In order to run the project execute mvn spring-boot:run in the following sequence:
 1. Micro-eurekaserver (Starts Eureka Service Registry for the service scaling)
 2. Micro-weather-service (Feign client proxy to the Open Weather Map api)
